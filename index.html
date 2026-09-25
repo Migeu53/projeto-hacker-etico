@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Biblioteca Escolar - projeto acadêmico de segurança web" />
+  <title>Biblioteca Escolar | Desafio Hacker Ético</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="offlineBanner" class="offline-banner hidden">
+    Você abriu o HTML diretamente. Para login e testes, execute <strong>BibliotecaServer.java</strong> e acesse <strong>http://localhost:8082</strong>.
+  </div>
+
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#inicio" class="brand" aria-label="Biblioteca Escolar">
+        <span class="brand-mark">B</span>
+        <span>
+          <strong>Biblioteca Escolar</strong>
+          <small>Desafio Hacker Ético</small>
+        </span>
+      </a>
+
+      <button id="menuButton" class="menu-button" aria-label="Abrir menu">☰</button>
+
+      <nav id="mainNav" class="main-nav">
+        <a href="#inicio">Início</a>
+        <a href="#catalogo">Catálogo</a>
+        <a href="#area" data-auth-only class="hidden">Minha área</a>
+        <a href="#laboratorio" data-auth-only class="hidden">Laboratório</a>
+        <button id="loginNavBtn" class="nav-cta">Entrar</button>
+        <button id="logoutNavBtn" class="nav-cta subtle hidden">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section id="inicio" class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="eyebrow">PROJETO ACADÊMICO • JAVA + HTML + CSS</span>
+          <h1>Uma biblioteca escolar funcional, moderna e preparada para testes de segurança.</h1>
+          <p>
+            Consulte livros, crie sua conta, faça empréstimos e explore uma área controlada de laboratório
+            criada especificamente para a atividade de Hacker Ético.
+          </p>
+          <div class="hero-actions">
+            <button id="heroLoginBtn" class="button primary">Acessar o sistema</button>
+            <a href="#catalogo" class="button ghost">Ver catálogo</a>
+          </div>
+          <div class="hero-metrics">
+            <div><strong id="metricBooks">6</strong><span>livros</span></div>
+            <div><strong>3</strong><span>contas iniciais</span></div>
+            <div><strong>3</strong><span>falhas de laboratório</span></div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-card-top">
+            <span class="status-dot"></span>
+            <span>Sistema acadêmico</span>
+          </div>
+          <div class="book-stack" aria-hidden="true">
+            <div class="book book-a"><span>Java</span></div>
+            <div class="book book-b"><span>Redes</span></div>
+            <div class="book book-c"><span>Segurança</span></div>
+          </div>
+          <div class="hero-card-bottom">
+            <strong>Ambiente controlado</strong>
+            <p>O servidor aceita conexões apenas no computador local por padrão.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="catalogo" class="section soft-section">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="eyebrow">CATÁLOGO</span>
+            <h2>Livros disponíveis</h2>
+          </div>
+          <p>O catálogo é carregado pelo servidor Java quando o projeto está em execução.</p>
+        </div>
+        <div id="bookGrid" class="book-grid">
+          <article class="catalog-card skeleton"></article>
+          <article class="catalog-card skeleton"></article>
+          <article class="catalog-card skeleton"></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="area" class="section hidden" data-auth-only>
+      <div class="container dashboard-grid">
+        <aside class="profile-card panel">
+          <div class="avatar" id="profileAvatar">U</div>
+          <h2 id="profileName">Usuário</h2>
+          <p id="profileEmail">email</p>
+          <span id="profileRole" class="role-badge">USER</span>
+          <div class="profile-details">
+            <div><span>ID</span><strong id="profileId">-</strong></div>
+            <div><span>Curso</span><strong id="profileCourse">-</strong></div>
+          </div>
+        </aside>
+
+        <div class="dashboard-main">
+          <div class="panel">
+            <div class="panel-title-row">
+              <div>
+                <span class="eyebrow">MINHA ÁREA</span>
+                <h2>Empréstimos</h2>
+              </div>
+              <button id="refreshLoansBtn" class="button small ghost">Atualizar</button>
+            </div>
+            <div id="loanList" class="loan-list"></div>
+          </div>
+
+          <div id="adminPanel" class="panel hidden">
+            <div class="panel-title-row">
+              <div>
+                <span class="eyebrow">ADMINISTRAÇÃO</span>
+                <h2>Usuários cadastrados</h2>
+              </div>
+            </div>
+            <div class="table-wrap">
+              <table>
+                <thead><tr><th>ID</th><th>Nome</th><th>E-mail</th><th>Perfil</th></tr></thead>
+                <tbody id="adminUsersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="laboratorio" class="section lab-section hidden" data-auth-only>
+      <div class="container">
+        <div class="section-heading inverse">
+          <div>
+            <span class="eyebrow">LABORATÓRIO AUTORIZADO</span>
+            <h2>Área de investigação</h2>
+          </div>
+          <p>As falhas abaixo são intencionais e existem somente para a atividade acadêmica.</p>
+        </div>
+
+        <div class="lab-grid">
+          <article class="lab-card">
+            <span class="lab-number">01</span>
+            <h3>Consulta de perfil</h3>
+            <p>Informe um ID de usuário para consultar o perfil.</p>
+            <form id="idorForm">
+              <label for="idorId">ID do usuário</label>
+              <div class="inline-form">
+                <input id="idorId" name="id" type="number" min="1" value="1" required />
+                <button class="button primary" type="submit">Consultar</button>
+              </div>
+            </form>
+            <div id="idorResult" class="lab-result muted-result">Nenhum teste executado.</div>
+          </article>
+
+          <article class="lab-card">
+            <span class="lab-number">02</span>
+            <h3>Busca experimental</h3>
+            <p>Teste como a aplicação trata o conteúdo enviado pelo usuário.</p>
+            <form id="xssForm">
+              <label for="xssQuery">Termo de busca</label>
+              <div class="inline-form">
+                <input id="xssQuery" name="q" type="text" placeholder="Digite algo" />
+                <button class="button primary" type="submit">Buscar</button>
+              </div>
+            </form>
+            <div id="xssResult" class="lab-result muted-result">Nenhum teste executado.</div>
+          </article>
+
+          <article class="lab-card">
+            <span class="lab-number">03</span>
+            <h3>Relatório interno</h3>
+            <p>Recurso que deveria possuir uma verificação de autorização mais restritiva.</p>
+            <button id="reportBtn" class="button primary">Abrir relatório</button>
+            <div id="reportResult" class="lab-result muted-result">Nenhum teste executado.</div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Biblioteca Escolar</strong>
+        <p>Projeto educacional para ambiente autorizado de testes.</p>
+      </div>
+      <div>
+        <span>Contas iniciais</span>
+        <code>admin@biblioteca.local / Admin123!</code>
+        <code>leo@biblioteca.local / Leo12345!</code>
+        <code>bia@biblioteca.local / Bia12345!</code>
+      </div>
+    </div>
+  </footer>
+
+  <div id="authModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card">
+      <button class="modal-close" data-close-modal aria-label="Fechar">×</button>
+      <div class="auth-tabs">
+        <button id="loginTab" class="auth-tab active">Entrar</button>
+        <button id="registerTab" class="auth-tab">Criar conta</button>
+      </div>
+
+      <form id="loginForm" class="auth-form">
+        <h2 id="authTitle">Entrar no sistema</h2>
+        <p>Use uma das contas de teste ou sua conta cadastrada.</p>
+        <label for="loginEmail">E-mail</label>
+        <input id="loginEmail" type="email" name="email" autocomplete="username" required />
+        <label for="loginPassword">Senha</label>
+        <input id="loginPassword" type="password" name="password" autocomplete="current-password" required />
+        <button type="submit" class="button primary full">Entrar</button>
+      </form>
+
+      <form id="registerForm" class="auth-form hidden">
+        <h2>Criar conta</h2>
+        <p>Cadastre um novo usuário para testar o fluxo completo.</p>
+        <label for="registerName">Nome</label>
+        <input id="registerName" type="text" name="name" minlength="2" required />
+        <label for="registerEmail">E-mail</label>
+        <input id="registerEmail" type="email" name="email" required />
+        <label for="registerCourse">Curso</label>
+        <input id="registerCourse" type="text" name="course" placeholder="Ex.: Desenvolvimento de Sistemas" />
+        <label for="registerPassword">Senha</label>
+        <input id="registerPassword" type="password" name="password" minlength="8" required />
+        <button type="submit" class="button primary full">Cadastrar</button>
+      </form>
+
+      <div id="authMessage" class="form-message hidden"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast hidden"></div>
+
+  <script>
+    const state = { user: null, books: [], loans: [] };
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+    const api = async (url, options = {}) => {
+      const response = await fetch(url, {
+        ...options,
+        headers: { "Content-Type": "application/json", ...(options.headers || {}) }
+      });
+      const text = await response.text();
+      let data = {};
+      try { data = text ? JSON.parse(text) : {}; } catch { data = { message: text }; }
+      if (!response.ok) throw new Error(data.message || "Erro na requisição");
+      return data;
+    };
+
+    function showToast(message, type = "success") {
+      const toast = $("#toast");
+      toast.textContent = message;
+      toast.className = `toast ${type}`;
+      setTimeout(() => toast.classList.add("hidden"), 3200);
+    }
+
+    function escapeHtml(value = "") {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    function openModal(mode = "login") {
+      $("#authModal").classList.remove("hidden");
+      document.body.classList.add("modal-open");
+      setAuthMode(mode);
+    }
+
+    function closeModal() {
+      $("#authModal").classList.add("hidden");
+      document.body.classList.remove("modal-open");
+      $("#authMessage").classList.add("hidden");
+    }
+
+    function setAuthMode(mode) {
+      const login = mode === "login";
+      $("#loginTab").classList.toggle("active", login);
+      $("#registerTab").classList.toggle("active", !login);
+      $("#loginForm").classList.toggle("hidden", !login);
+      $("#registerForm").classList.toggle("hidden", login);
+      $("#authMessage").classList.add("hidden");
+    }
+
+    function updateAuthUI() {
+      const logged = !!state.user;
+      $$('[data-auth-only]').forEach(el => el.classList.toggle("hidden", !logged));
+      $("#loginNavBtn").classList.toggle("hidden", logged);
+      $("#logoutNavBtn").classList.toggle("hidden", !logged);
+
+      if (!logged) {
+        $("#adminPanel").classList.add("hidden");
+        return;
+      }
+
+      $("#profileAvatar").textContent = (state.user.name || "U").charAt(0).toUpperCase();
+      $("#profileName").textContent = state.user.name;
+      $("#profileEmail").textContent = state.user.email;
+      $("#profileRole").textContent = state.user.role;
+      $("#profileId").textContent = state.user.id;
+      $("#profileCourse").textContent = state.user.course || "Não informado";
+      $("#adminPanel").classList.toggle("hidden", state.user.role !== "ADMIN");
+    }
+
+    async function loadSession() {
+      try {
+        const data = await api("/api/session");
+        state.user = data.user || null;
+      } catch {
+        state.user = null;
+      }
+      updateAuthUI();
+      if (state.user) {
+        await Promise.all([loadLoans(), loadAdminUsers()]);
+      }
+    }
+
+    async function loadBooks() {
+      const grid = $("#bookGrid");
+      try {
+        const data = await api("/api/books");
+        state.books = data.books || [];
+        $("#metricBooks").textContent = state.books.length;
+        grid.innerHTML = state.books.map(book => `
+          <article class="catalog-card">
+            <div class="catalog-cover cover-${book.id % 4}">
+              <span>${escapeHtml(book.short)}</span>
+            </div>
+            <div class="catalog-body">
+              <span class="catalog-category">${escapeHtml(book.category)}</span>
+              <h3>${escapeHtml(book.title)}</h3>
+              <p>${escapeHtml(book.author)}</p>
+              <div class="catalog-meta">
+                <span>${book.available ? "Disponível" : "Indisponível"}</span>
+                <button class="button small ${book.available ? "primary" : "disabled"}" ${book.available ? "" : "disabled"} data-loan-book="${book.id}">
+                  Emprestar
+                </button>
+              </div>
+            </div>
+          </article>
+        `).join("");
+      } catch {
+        grid.innerHTML = `
+          <div class="server-message">
+            <strong>Servidor Java não está em execução.</strong>
+            <span>Execute <code>javac --add-modules jdk.httpserver BibliotecaServer.java</code> e depois <code>java --add-modules jdk.httpserver BibliotecaServer</code>.</span>
+          </div>`;
+      }
+    }
+
+    async function createLoan(bookId) {
+      if (!state.user) {
+        openModal("login");
+        return;
+      }
+      try {
+        await api("/api/loans", { method: "POST", body: JSON.stringify({ bookId: Number(bookId) }) });
+        showToast("Empréstimo registrado.");
+        await Promise.all([loadBooks(), loadLoans()]);
+      } catch (error) {
+        showToast(error.message, "error");
+      }
+    }
+
+    async function loadLoans() {
+      if (!state.user) return;
+      const list = $("#loanList");
+      try {
+        const data = await api("/api/loans");
+        state.loans = data.loans || [];
+        if (!state.loans.length) {
+          list.innerHTML = `<div class="empty-state"><strong>Nenhum empréstimo.</strong><span>Escolha um livro no catálogo.</span></div>`;
+          return;
+        }
+        list.innerHTML = state.loans.map(loan => `
+          <div class="loan-row">
+            <div>
+              <strong>${escapeHtml(loan.bookTitle)}</strong>
+              <span>Empréstimo #${loan.id}</span>
+            </div>
+            <span class="loan-status">${escapeHtml(loan.status)}</span>
+          </div>
+        `).join("");
+      } catch (error) {
+        list.innerHTML = `<div class="empty-state"><strong>Não foi possível carregar.</strong><span>${escapeHtml(error.message)}</span></div>`;
+      }
+    }
+
+    async function loadAdminUsers() {
+      if (!state.user || state.user.role !== "ADMIN") return;
+      try {
+        const data = await api("/api/admin/users");
+        $("#adminUsersTable").innerHTML = data.users.map(user => `
+          <tr><td>${user.id}</td><td>${escapeHtml(user.name)}</td><td>${escapeHtml(user.email)}</td><td>${escapeHtml(user.role)}</td></tr>
+        `).join("");
+      } catch (error) {
+        showToast(error.message, "error");
+      }
+    }
+
+    $("#loginForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      try {
+        const data = await api("/api/login", { method: "POST", body: JSON.stringify(Object.fromEntries(form)) });
+        state.user = data.user;
+        updateAuthUI();
+        await Promise.all([loadLoans(), loadAdminUsers()]);
+        closeModal();
+        showToast("Login realizado com sucesso.");
+        location.hash = "#area";
+      } catch (error) {
+        const msg = $("#authMessage");
+        msg.textContent = error.message;
+        msg.className = "form-message error";
+      }
+    });
+
+    $("#registerForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const form = new FormData(event.currentTarget);
+      try {
+        await api("/api/register", { method: "POST", body: JSON.stringify(Object.fromEntries(form)) });
+        const msg = $("#authMessage");
+        msg.textContent = "Conta criada. Agora faça login.";
+        msg.className = "form-message success";
+        setTimeout(() => setAuthMode("login"), 1000);
+      } catch (error) {
+        const msg = $("#authMessage");
+        msg.textContent = error.message;
+        msg.className = "form-message error";
+      }
+    });
+
+    $("#logoutNavBtn").addEventListener("click", async () => {
+      try { await api("/api/logout", { method: "POST", body: "{}" }); } catch {}
+      state.user = null;
+      updateAuthUI();
+      showToast("Sessão encerrada.");
+      location.hash = "#inicio";
+    });
+
+    $("#idorForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const id = $("#idorId").value;
+      const result = $("#idorResult");
+      try {
+        const data = await api(`/api/lab/profile?id=${encodeURIComponent(id)}`);
+        result.className = "lab-result";
+        result.innerHTML = `
+          <strong>${escapeHtml(data.user.name)}</strong>
+          <span>${escapeHtml(data.user.email)}</span>
+          <span>Perfil: ${escapeHtml(data.user.role)}</span>
+          <span>Informação privada: ${escapeHtml(data.user.privateNote)}</span>`;
+      } catch (error) {
+        result.className = "lab-result error-result";
+        result.textContent = error.message;
+      }
+    });
+
+    $("#xssForm").addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const q = $("#xssQuery").value;
+      const result = $("#xssResult");
+      try {
+        const data = await api(`/api/lab/search?q=${encodeURIComponent(q)}`);
+        result.className = "lab-result";
+        // Intencionalmente inseguro para o laboratório acadêmico: demonstra XSS refletido.
+        result.innerHTML = `Resultado para: ${data.query}`;
+      } catch (error) {
+        result.className = "lab-result error-result";
+        result.textContent = error.message;
+      }
+    });
+
+    $("#reportBtn").addEventListener("click", async () => {
+      const result = $("#reportResult");
+      try {
+        const data = await api("/api/lab/admin-report");
+        result.className = "lab-result";
+        result.innerHTML = `<strong>${escapeHtml(data.title)}</strong><span>${escapeHtml(data.flag)}</span><span>${escapeHtml(data.note)}</span>`;
+      } catch (error) {
+        result.className = "lab-result error-result";
+        result.textContent = error.message;
+      }
+    });
+
+    document.addEventListener("click", (event) => {
+      const loanButton = event.target.closest("[data-loan-book]");
+      if (loanButton) createLoan(loanButton.dataset.loanBook);
+      if (event.target.matches("[data-close-modal]")) closeModal();
+    });
+
+    $("#loginNavBtn").addEventListener("click", () => openModal("login"));
+    $("#heroLoginBtn").addEventListener("click", () => state.user ? (location.hash = "#area") : openModal("login"));
+    $("#loginTab").addEventListener("click", () => setAuthMode("login"));
+    $("#registerTab").addEventListener("click", () => setAuthMode("register"));
+    $("#refreshLoansBtn").addEventListener("click", loadLoans);
+    $("#menuButton").addEventListener("click", () => $("#mainNav").classList.toggle("open"));
+
+    if (location.protocol === "file:") {
+      $("#offlineBanner").classList.remove("hidden");
+    }
+
+    loadBooks();
+    loadSession();
+  </script>
+</body>
+</html>
