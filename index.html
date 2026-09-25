@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Escolar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">
+        <div class="logo">BE</div>
+        <div>
+          <h1>Biblioteca Escolar</h1>
+          <p>Desafio Hacker Ético</p>
+        </div>
+      </div>
+
+      <nav id="navGuest" class="nav">
+        <button class="link-btn" data-action="show-home">Início</button>
+        <button class="link-btn" data-action="show-login">Login</button>
+        <button class="primary small" data-action="show-register">Criar conta</button>
+      </nav>
+
+      <nav id="navUser" class="nav hidden">
+        <button class="link-btn" data-action="show-dashboard">Painel</button>
+        <button class="link-btn" data-action="show-profile">Perfil</button>
+        <button class="link-btn" data-action="show-lab">Laboratório</button>
+        <button id="adminNavBtn" class="link-btn hidden" data-action="show-admin">Admin</button>
+        <button class="primary small" data-action="logout">Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section id="homeView" class="view active">
+      <div class="hero">
+        <div class="hero-copy">
+          <span class="eyebrow">PROJETO ACADÊMICO</span>
+          <h2>Um sistema de biblioteca simples, bonito e funcional.</h2>
+          <p>
+            Este projeto simula cadastro, autenticação, perfis, área administrativa,
+            empréstimos e um laboratório de segurança.
+          </p>
+          <div class="hero-actions">
+            <button class="primary" data-action="show-login">Entrar no sistema</button>
+            <button class="secondary" data-action="show-register">Criar conta</button>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="metric">
+            <strong>6</strong>
+            <span>Livros cadastrados</span>
+          </div>
+          <div class="metric">
+            <strong>3</strong>
+            <span>Usuários iniciais</span>
+          </div>
+          <div class="metric">
+            <strong>3</strong>
+            <span>Áreas protegidas</span>
+          </div>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">CATÁLOGO</span>
+            <h3>Livros disponíveis</h3>
+          </div>
+          <input id="bookSearch" class="search" type="search" placeholder="Buscar livro...">
+        </div>
+        <div id="catalogGrid" class="grid cards-3"></div>
+      </section>
+
+      <section class="section">
+        <div class="info-grid">
+          <article class="info-card">
+            <h4>Autenticação</h4>
+            <p>Login, cadastro e sessão simulada no navegador.</p>
+          </article>
+          <article class="info-card">
+            <h4>Área administrativa</h4>
+            <p>Usuários e empréstimos ficam visíveis apenas ao perfil ADMIN.</p>
+          </article>
+          <article class="info-card">
+            <h4>Laboratório</h4>
+            <p>Área educacional para demonstrar falhas de segurança de forma controlada.</p>
+          </article>
+        </div>
+      </section>
+    </section>
+
+    <section id="loginView" class="view">
+      <div class="auth-shell">
+        <div class="auth-card">
+          <span class="eyebrow">ACESSO</span>
+          <h2>Entrar</h2>
+          <p class="muted">Use uma das contas de teste ou crie a sua.</p>
+
+          <form id="loginForm">
+            <label>E-mail</label>
+            <input name="email" type="email" placeholder="voce@email.com" required>
+
+            <label>Senha</label>
+            <input name="password" type="password" placeholder="Sua senha" required>
+
+            <button class="primary full" type="submit">Entrar</button>
+          </form>
+
+          <div class="demo-box">
+            <strong>Contas de teste</strong>
+            <p>admin@biblioteca.local / Admin123!</p>
+            <p>leo@biblioteca.local / Leo12345!</p>
+            <p>bia@biblioteca.local / Bia12345!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="registerView" class="view">
+      <div class="auth-shell">
+        <div class="auth-card">
+          <span class="eyebrow">CADASTRO</span>
+          <h2>Criar conta</h2>
+          <p class="muted">O cadastro fica salvo no próprio navegador.</p>
+
+          <form id="registerForm">
+            <label>Nome</label>
+            <input name="name" type="text" placeholder="Seu nome" required>
+
+            <label>E-mail</label>
+            <input name="email" type="email" placeholder="voce@email.com" required>
+
+            <label>Senha</label>
+            <input name="password" type="password" minlength="6" placeholder="Mínimo de 6 caracteres" required>
+
+            <button class="primary full" type="submit">Cadastrar</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashboardView" class="view">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">ÁREA AUTENTICADA</span>
+          <h2 id="welcomeTitle">Olá!</h2>
+          <p class="muted">Gerencie seus empréstimos e explore o catálogo.</p>
+        </div>
+        <button class="secondary" data-action="show-home">Ver catálogo</button>
+      </div>
+
+      <div class="grid cards-3">
+        <article class="stat-card">
+          <span>Seus empréstimos</span>
+          <strong id="loanCount">0</strong>
+        </article>
+        <article class="stat-card">
+          <span>Perfil</span>
+          <strong id="roleStat">USER</strong>
+        </article>
+        <article class="stat-card">
+          <span>Status</span>
+          <strong>Ativo</strong>
+        </article>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <div>
+            <span class="eyebrow">MEUS EMPRÉSTIMOS</span>
+            <h3>Livros emprestados</h3>
+          </div>
+        </div>
+        <div id="myLoans" class="grid cards-2"></div>
+      </section>
+    </section>
+
+    <section id="profileView" class="view">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">PERFIL</span>
+          <h2>Meus dados</h2>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="profile-row"><span>Nome</span><strong id="profileName"></strong></div>
+        <div class="profile-row"><span>E-mail</span><strong id="profileEmail"></strong></div>
+        <div class="profile-row"><span>Perfil</span><strong id="profileRole"></strong></div>
+        <div class="profile-row"><span>ID</span><strong id="profileId"></strong></div>
+      </div>
+    </section>
+
+    <section id="adminView" class="view">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">ADMINISTRAÇÃO</span>
+          <h2>Painel administrativo</h2>
+          <p class="muted">Área exclusiva para o usuário administrador.</p>
+        </div>
+      </div>
+
+      <section class="section">
+        <div class="section-head">
+          <h3>Usuários cadastrados</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Perfil</th>
+              </tr>
+            </thead>
+            <tbody id="adminUsersTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-head">
+          <h3>Empréstimos</h3>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Usuário</th>
+                <th>Livro</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="adminLoansTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section id="labView" class="view">
+      <div class="page-head">
+        <div>
+          <span class="eyebrow">LABORATÓRIO</span>
+          <h2>Ambiente educacional</h2>
+          <p class="muted">
+            Demonstrações feitas apenas dentro deste projeto.
+          </p>
+        </div>
+      </div>
+
+      <div class="grid cards-2">
+        <article class="lab-card">
+          <span class="lab-tag">IDOR SIMULADO</span>
+          <h3>Consulta de perfil por ID</h3>
+          <p>Digite um ID para consultar o perfil correspondente.</p>
+          <div class="inline-form">
+            <input id="labUserId" type="number" min="1" placeholder="Ex.: 1">
+            <button id="labUserBtn" class="primary">Consultar</button>
+          </div>
+          <div id="labUserResult" class="result-box"></div>
+        </article>
+
+        <article class="lab-card">
+          <span class="lab-tag">VALIDAÇÃO DE ENTRADA</span>
+          <h3>Busca insegura simulada</h3>
+          <p>O sistema exibe exatamente o texto fornecido.</p>
+          <div class="inline-form">
+            <input id="labSearchInput" type="text" placeholder="Digite um texto">
+            <button id="labSearchBtn" class="primary">Testar</button>
+          </div>
+          <div id="labSearchResult" class="result-box"></div>
+        </article>
+      </div>
+
+      <article class="lab-card lab-wide">
+        <span class="lab-tag">FLAG</span>
+        <h3>Desafio interno</h3>
+        <p>
+          A flag só aparece para o administrador dentro da área administrativa.
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <div>
+        <strong>Biblioteca Escolar</strong>
+        <p>Projeto acadêmico de segurança de aplicações web.</p>
+      </div>
+      <span>GitHub Pages • HTML + CSS + JavaScript</span>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
